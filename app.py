@@ -1,4 +1,12 @@
-import os
+# ── Create the Flask application (required by Vercel) ─────────────────────
+
+app = create_app()
+
+# ── Entry point for local development ──────────────────────────────────────
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
+    import os
 import bcrypt
 from datetime import date as date_type
 from flask import Flask, send_from_directory
