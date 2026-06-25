@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventZone — Admin Dashboard</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="admin-body">
+
+<!-- ================= TOP BAR ================= -->
+<header class="admin-topbar">
+  <div class="admin-topbar-left">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="admin-logo">
+      <span>⚡ EventZone</span>
+      <small>Admin Dashboard</small>
+    </div>
+  </div>
+  <div class="admin-topbar-right" id="adminActions">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode" style="margin-right:10px;">
+      <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ================= LAYOUT ================= -->
+<div class="admin-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <nav class="sidebar-nav">
+      <a href="#" class="sidebar-item active" onclick="showSection('overview', this)">
+        <i class="fas fa-chart-bar"></i>
+        <span>Overview</span>
+      </a>
+      <a href="#" class="sidebar-item" onclick="showSection('bookings', this)">
+        <i class="fas fa-calendar-check"></i>
+        <span>Bookings</span>
+      </a>
+      <a href="#" class="sidebar-item" onclick="showSection('users', this)">
+        <i class="fas fa-users"></i>
+        <span>Users</span>
+      </a>
+      <a href="#" class="sidebar-item" onclick="showSection('events', this)">
+        <i class="fas fa-calendar-star"></i>
+        <span>Events</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="/" class="sidebar-back-btn">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Site</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="admin-content">
+
+    <section id="section-overview" class="admin-section active-section">
+      <h2 class="admin-section-title">Overview</h2>
+      <div class="stats-cards" id="statsCards">
+        <div class="stat-card"><i class="fa fa-calendar-check"></i><div><p class="stat-label">Total Bookings</p><h3 class="stat-value" id="statBookings">—</h3></div></div>
+        <div class="stat-card"><i class="fa fa-dollar-sign"></i><div><p class="stat-label">Total Revenue</p><h3 class="stat-value" id="statRevenue">—</h3></div></div>
+        <div class="stat-card"><i class="fa fa-calendar-star"></i><div><p class="stat-label">Active Events</p><h3 class="stat-value" id="statEvents">—</h3></div></div>
+        <div class="stat-card"><i class="fa fa-users"></i><div><p class="stat-label">Registered Users</p><h3 class="stat-value" id="statUsers">—</h3></div></div>
+      </div>
+
+      <!-- Quick summary cards -->
+      <div class="overview-grid" style="margin-top:28px;">
+        <div class="overview-card">
+          <h4><i class="fas fa-clock"></i> Recent Activity</h4>
+          <p>View bookings, manage events, and monitor users from the sidebar.</p>
+          <div class="overview-links">
+            <button onclick="showSection('bookings', null)" class="ov-btn"><i class="fas fa-calendar-check"></i> View Bookings</button>
+            <button onclick="showSection('events', null)" class="ov-btn"><i class="fas fa-calendar-star"></i> Manage Events</button>
+            <button onclick="showSection('users', null)" class="ov-btn"><i class="fas fa-users"></i> View Users</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOKINGS -->
+    <section id="section-bookings" class="admin-section" style="display:none;">
+      <div class="section-header">
+        <h2 class="admin-section-title">Bookings</h2>
+        <div class="filter-row">
+          <label for="statusFilter">Filter:</label>
+          <select id="statusFilter" onchange="loadBookings(1, this.value)">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Guest</th><th>Event</th><th>Date</th><th>Tickets</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="bookingsBody"><tr><td colspan="8" class="loading-cell">Loading…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="bookingsPagination"></div>
+    </section>
+
+    <!-- USERS -->
+    <section id="section-users" class="admin-section" style="display:none;">
+      <h2 class="admin-section-title">Users</h2>
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Registered</th><th>Bookings</th></tr></thead>
+          <tbody id="usersBody"><tr><td colspan="6" class="loading-cell">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section id="section-events" class="admin-section" style="display:none;">
+      <h2 class="admin-section-title">Events</h2>
+
+      <div class="add-event-form">
+        <h3><i class="fas fa-plus-circle"></i> Add New Event</h3>
+        <form id="addEventForm" onsubmit="addEvent(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Event Title</label><input type="text" id="eventTitle" placeholder="e.g. Afrobeats Night" required /></div>
+            <div class="form-group"><label>Category</label><select id="eventCategory"><option value="concert">Concert</option><option value="show">Show</option><option value="sport">Sport</option></select></div>
+            <div class="form-group"><label>Venue</label><input type="text" id="eventVenue" placeholder="e.g. Lusaka Arena" required /></div>
+            <div class="form-group"><label>Ticket Price (K)</label><input type="number" id="eventPrice" min="1" step="0.01" placeholder="250.00" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Event Date</label><input type="date" id="eventDate" required /></div>
+            <div class="form-group"><label>Event Time</label><input type="time" id="eventTime" required /></div>
+            <div class="form-group"><label>Total Tickets</label><input type="number" id="eventCapacity" min="1" placeholder="500" required /></div>
+            <div class="form-group"><label>Image URL (optional)</label><input type="url" id="eventImageUrl" placeholder="https://…" /></div>
+          </div>
+          <div class="form-group"><label>Description</label><input type="text" id="eventDescription" placeholder="Short description…" /></div>
+          <p id="addEventError" class="form-error" style="display:none;"></p>
+          <button type="submit" class="btn primary" id="addEventBtn"><i class="fas fa-plus"></i> Add Event</button>
+        </form>
+      </div>
+
+      <!-- EDIT EVENT MODAL -->
+      <div id="editEventModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:760px;width:92%;">
+          <span class="modal-close" onclick="closeEditEventModal()">&times;</span>
+          <h3 class="modal-title" style="margin:0 0 16px;display:flex;align-items:center;gap:10px;">
+            <i class="fas fa-pen-to-square" style="color:#2D7FF9;"></i>
+            Edit Event
+          </h3>
+
+          <form id="editEventForm" onsubmit="submitEditEvent(event)">
+            <input type="hidden" id="editEventId" />
+
+            <div class="form-row">
+              <div class="form-group"><label>Event Title</label><input type="text" id="editEventTitle" required /></div>
+              <div class="form-group"><label>Category</label>
+                <select id="editEventCategory">
+                  <option value="concert">Concert</option>
+                  <option value="show">Show</option>
+                  <option value="sport">Sport</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Venue</label><input type="text" id="editEventVenue" required /></div>
+              <div class="form-group"><label>Ticket Price (K)</label><input type="number" id="editEventPrice" min="1" step="0.01" required /></div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group"><label>Event Date</label><input type="date" id="editEventDate" required /></div>
+              <div class="form-group"><label>Event Time</label><input type="time" id="editEventTime" required /></div>
+              <div class="form-group"><label>Total Tickets</label><input type="number" id="editEventCapacity" min="1" required /></div>
+              <div class="form-group"><label>Image URL (optional)</label><input type="url" id="editEventImageUrl" /></div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:12px;">
+              <label>Description</label>
+              <input type="text" id="editEventDescription" />
+            </div>
+
+            <div class="form-row" style="grid-template-columns:1fr 1fr;">
+              <div class="form-group">
+                <label>Active</label>
+                <select id="editEventIsActive">
+                  <option value="true">Active</option>
+                  <option value="false">Inactive</option>
+                </select>
+              </div>
+              <div class="form-group" style="align-self:end;">
+                <button type="submit" class="btn primary" style="width:100%;">
+                  <i class="fas fa-save" style="margin-right:8px;"></i> Save Changes
+                </button>
+              </div>
+            </div>
+
+            <p id="editEventError" class="form-error" style="display:none;"></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-wrapper" style="margin-top:24px;">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>Title</th><th>Category</th><th>Venue</th><th>Date</th><th>Price</th><th>Tickets</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="eventsBody"><tr><td colspan="9" class="loading-cell">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="admin.js"></script>
+<script src="footer.js"></script>
+
+<script>
+  // ── Dark / Light mode toggle (admin dashboard) ─────────────────────────
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+      icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  (function() {
+    const saved = localStorage.getItem('theme') || 'dark';
+    applyTheme(saved);
+  })();
+
+function showSection(name, clickedEl) {
+  // Hide all sections
+  document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+  // Show target
+  const target = document.getElementById('section-' + name);
+  if (target) target.style.display = 'block';
+  // Update sidebar active state
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  if (clickedEl) {
+    clickedEl.classList.add('active');
+  } else {
+    // Find by data
+    document.querySelectorAll('.sidebar-item').forEach(i => {
+      if (i.getAttribute('onclick') && i.getAttribute('onclick').includes("'" + name + "'")) {
+        i.classList.add('active');
+      }
+    });
+  }
+  // Load data on first visit
+  if (name === 'bookings') loadBookings();
+  if (name === 'users')    loadUsers();
+  if (name === 'events')   loadEvents();
+  return false;
+}
+
+function toggleSidebar() {
+  document.getElementById('adminSidebar').classList.toggle('collapsed');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+Pending: Fix admin.css syntax errors introduced during color replacement.
+
+Observed issues:
+- The block `.sidebar-item.active {` contains literal `\n` characters and has malformed CSS.
+- Need to replace that entire sidebar-item.active section with valid CSS.
+
+Next intended edits:
+1) Replace the entire malformed `.sidebar-item.active { ... }` block plus the following `.sidebar-item.active i { ... }` so that:
+   .sidebar-item.active {
+     background: #eff6ff;
+     color: #2D7FF9;
+     border-left: 3px solid #2D7FF9;
+     font-weight: 700;
+   }
+   .sidebar-item.active i { color: #2D7FF9; }
+2) Add missing hover icon rule if needed:
+   .sidebar-item:hover i { color: #2D7FF9; }
+
+After edit, re-verify CSS parses.

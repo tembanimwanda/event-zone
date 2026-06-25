@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventZone — Your Gateway to Live Entertainment</title>
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="footer.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="container header-wrapper">
+    <div class="logo">
+      <h1>⚡ EventZone</h1>
+      <small>Your Gateway to Live Entertainment</small>
+    </div>
+    <nav class="nav" id="navMenu">
+      <a href="#home">Home</a>
+      <a href="#events">Events</a>
+      <a href="#how">How It Works</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+    <div class="actions">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="btn outline" onclick="openLogin()">Login</button>
+      <button class="btn primary" onclick="openRegister()">Register</button>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="home" class="hero">
+  <img src="static/temzy.jpg" alt="" class="hero-bg" aria-hidden="true" />
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <h2>Book Your Next <span>Live Experience</span></h2>
+      <p>Concerts, comedy shows, sports matches — get your tickets instantly and never miss a moment of live entertainment.</p>
+      <div class="search-box">
+        <select id="heroCategory" onchange="filterEvents()">
+          <option value="all">🎭 All Events</option>
+          <option value="concert">🎵 Concerts</option>
+          <option value="show">🎪 Shows</option>
+          <option value="sport">⚽ Sports</option>
+        </select>
+        <input type="date" id="heroDate" onchange="filterEvents()" />
+        <button class="btn primary" onclick="filterEvents()">Search</button>
+      </div>
+      <div class="hero-buttons">
+        <button class="btn primary large" onclick="scrollToEvents()">Get Started</button>
+        <button class="btn outline large" onclick="scrollToEvents()">Browse Events</button>
+      </div>
+    </div>
+</section>
+
+<!-- ================= STATS ================= -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div><h3>50+</h3><p>Events This Month</p></div>
+    <div><h3>12K+</h3><p>Tickets Sold</p></div>
+    <div><h3>8K+</h3><p>Happy Fans</p></div>
+    <div><h3>24/7</h3><p>Support</p></div>
+  </div>
+</section>
+
+<!-- ================= FEATURED EVENTS ================= -->
+<section id="events" class="section">
+  <div class="container">
+    <h2 class="title">Featured Events</h2>
+    <p class="subtitle">Discover the hottest concerts, shows, and sports events near you</p>
+    <div class="category-filter">
+      <button class="filter-btn active" onclick="setCategory('all', this)">All</button>
+      <button class="filter-btn" onclick="setCategory('concert', this)">🎵 Concerts</button>
+      <button class="filter-btn" onclick="setCategory('show', this)">🎪 Shows</button>
+      <button class="filter-btn" onclick="setCategory('sport', this)">⚽ Sports</button>
+    </div>
+    <div class="grid" id="eventsGrid">
+      <p style="text-align:center;padding:40px;color:#666;grid-column:1/-1;">Loading events…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how" class="section alt">
+
+  <div class="container">
+    <h2 class="title">How It Works</h2>
+    <p class="subtitle">Four simple steps to your next live experience</p>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon">🔍</div>
+        <h4>Browse Events</h4>
+        <p>Explore concerts, shows, and sports matches happening near you.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon">🎟️</div>
+        <h4>Select Tickets</h4>
+        <p>Choose how many tickets you need and see the live total instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon">💳</div>
+        <h4>Pay Securely</h4>
+        <p>Pay with your card or MTN Mobile Money — fast and secure.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-icon">📱</div>
+        <h4>Get E-Ticket</h4>
+        <p>Receive your booking reference instantly. Show it at the gate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT (INDUSTRIAL) ================= -->
+<section id="contact" class="contact-section section">
+  <div class="container">
+    <h2 class="title">Contact Us</h2>
+    <p class="subtitle">Signal reach. Factory-grade support. Fast replies from our EventOps team.</p>
+
+    <div class="contact-layout">
+      <!-- Left: industrial tiles + contact details -->
+      <div class="contact-left">
+        <div class="contact-tiles">
+          <div class="contact-tile">
+            <div class="tile-icon">✉️</div>
+            <div class="tile-body">
+              <div class="tile-label">Email</div>
+              <a class="tile-link" href="mailto:info@eventzone.co.za">info@eventzone.co.za</a>
+              <div class="tile-meta">For partnerships & event queries</div>
+            </div>
+          </div>
+
+          <div class="contact-tile">
+            <div class="tile-icon">📞</div>
+            <div class="tile-body">
+              <div class="tile-label">Phone</div>
+              <a class="tile-link" href="tel:0971410771">0971410771</a>
+              <div class="tile-meta">Tickets & support line</div>
+            </div>
+          </div>
+
+          <div class="contact-tile">
+            <div class="tile-icon">📍</div>
+            <div class="tile-body">
+              <div class="tile-label">Location</div>
+              <div class="tile-link" style="pointer-events:none;">Twalumba Resort, Lundazi, Zambia</div>
+              <div class="tile-meta">Visit by appointment</div>
+            </div>
+          </div>
+
+          <div class="contact-tile">
+            <div class="tile-icon">🕒</div>
+            <div class="tile-body">
+              <div class="tile-label">Support</div>
+              <div class="tile-link" style="pointer-events:none;">24 / 7 Available</div>
+              <div class="tile-meta">Response within minutes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-note">
+          <div class="note-head">⚙️ Operational Promise</div>
+          <p class="note-text">Your message is routed to the right desk. Expect a clear answer, ticket status updates, and next steps.</p>
+        </div>
+      </div>
+
+      <!-- Right: map + form -->
+      <div class="contact-right">
+        <div class="contact-map-card">
+          <div class="map-frame" aria-label="Map preview">
+            <div class="map-grid"></div>
+            <div class="map-pin">●</div>
+            <div class="map-label">Lundazi • Zambia</div>
+          </div>
+          <div class="map-caption">Factory signal coverage for the Eastern region.</div>
+        </div>
+
+        <form class="contact-form" onsubmit="return handleContactSubmit(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name</label><input name="name" type="text" placeholder="Your name" required /></div>
+            <div class="form-group"><label>Email</label><input name="email" type="email" placeholder="you@example.com" required /></div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group"><label>Subject</label>
+              <select name="topic" required>
+                <option value="" selected disabled>Select topic</option>
+                <option value="tickets">Tickets</option>
+                <option value="events">Events</option>
+                <option value="partnerships">Partnerships</option>
+                <option value="support">Support</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Phone (optional)</label><input name="phone" type="text" placeholder="WhatsApp/Cell" /></div>
+          </div>
+
+          <div class="form-group"><label>Message</label><textarea name="message" placeholder="Write your request..." required></textarea></div>
+
+          <div class="contact-form-actions">
+            <button type="submit" class="btn primary full">Send Message</button>
+            <div class="form-hint"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer" role="contentinfo">
+
+  <!-- Top accent bar -->
+  <div class="footer-top-bar">
+    <div class="footer-top-inner">
+      <span class="footer-brand-tag">⚡ EventZone</span>
+      <span class="footer-tagline">Your Gateway to Live Entertainment</span>
+      <div class="footer-top-social">
+        <a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main grid -->
+  <div class="footer-main">
+    <div class="footer-grid">
+
+      <!-- Col 1: Brand -->
+      <div class="footer-col footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-icon">⚡</span>
+          <span class="footer-logo-text">EventZone</span>
+        </div>
+        <p class="footer-desc">
+          Your premier destination for live concerts, comedy shows, and sports events.
+          Book tickets instantly and never miss a moment.
+        </p>
+        <div class="footer-badges">
+          <span class="footer-badge"><i class="fas fa-shield-alt"></i> Secure Payments</span>
+          <span class="footer-badge"><i class="fas fa-bolt"></i> Instant Booking</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-col-title"><span>Quick Links</span></h4>
+        <ul class="footer-links">
+          <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li><a href="#events"><i class="fas fa-chevron-right"></i> Browse Events</a></li>
+          <li><a href="#how"><i class="fas fa-chevron-right"></i> How It Works</a></li>
+          <li><a href="#" onclick="openRegister();return false;"><i class="fas fa-chevron-right"></i> Create Account</a></li>
+          <li><a href="#" onclick="openLogin();return false;"><i class="fas fa-chevron-right"></i> Sign In</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Event Categories -->
+      <div class="footer-col">
+        <h4 class="footer-col-title"><span>Categories</span></h4>
+        <ul class="footer-links">
+          <li><a href="#events"><i class="fas fa-music"></i> Concerts</a></li>
+          <li><a href="#events"><i class="fas fa-theater-masks"></i> Comedy Shows</a></li>
+          <li><a href="#events"><i class="fas fa-futbol"></i> Sports Events</a></li>
+          <li><a href="#events"><i class="fas fa-calendar-alt"></i> All Events</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contact -->
+      <div class="footer-col">
+        <h4 class="footer-col-title"><span>Contact Us</span></h4>
+        <ul class="footer-contact-list">
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <span class="contact-label">Email</span>
+              <a href="mailto:info@eventzone.co.za">info@eventzone.co.za</a>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <div>
+              <span class="contact-label">Phone</span>
+              <a href="tel:0971410771">0971410771</a>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <span class="contact-label">Location</span>
+              <span>Twalumba Resort, Lundazi, Zambia</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-clock"></i>
+            <div>
+              <span class="contact-label">Support</span>
+              <span>24 / 7 Available</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="footer-divider"></div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p class="footer-copy">&copy; <span id="footer-year"></span> EventZone. All Rights Reserved.</p>
+      <div class="footer-legal">
+        <a href="/privacy">Privacy Policy</a>
+        <span class="footer-dot">·</span>
+        <a href="/terms">Terms of Service</a>
+        <span class="footer-dot">·</span>
+        <a href="/cookies">Cookie Policy</a>
+      </div>
+      <div class="footer-payment-icons">
+        <i class="fab fa-cc-visa" title="Visa"></i>
+        <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+        <i class="fas fa-mobile-alt" title="MTN MoMo"></i>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+<!-- ================= AUTH MODAL ================= -->
+<div id="authModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="auth-tabs">
+      <button id="tabLogin" class="auth-tab active" onclick="showLogin()">Login</button>
+      <button id="tabRegister" class="auth-tab" onclick="showRegister()">Register</button>
+    </div>
+    <p id="authError" class="form-error" style="display:none;"></p>
+    <form id="loginForm">
+      <h3 class="modal-title">Welcome Back</h3>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required /></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Password" required /></div>
+      <button type="submit" class="btn primary full">Login</button>
+      <p class="form-switch">No account? <a href="#" onclick="showRegister();return false;">Register here</a></p>
+    </form>
+    <form id="registerForm" style="display:none;">
+      <h3 class="modal-title">Create Account</h3>
+      <div class="form-group"><label>Full Name</label><input type="text" placeholder="John Doe" required /></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required /></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Min. 8 characters" required /></div>
+      <button type="submit" class="btn primary full">Create Account</button>
+      <p class="form-switch">Already have an account? <a href="#" onclick="showLogin();return false;">Login here</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- ================= BOOKING MODAL ================= -->
+<div id="bookingModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeBookingModal()">&times;</span>
+    <h3 class="modal-title" id="bookingEventTitle">Get Tickets</h3>
+    <div id="bookingEventInfo" style="margin-bottom:16px;font-size:14px;color:#a0a0b8;"></div>
+    <div class="form-group">
+      <label>Number of Tickets</label>
+      <div class="quantity-selector">
+        <button type="button" onclick="changeQuantity(-1)">−</button>
+        <span id="ticketQuantity">1</span>
+        <button type="button" onclick="changeQuantity(1)">+</button>
+      </div>
+    </div>
+    <div class="booking-total-display" id="bookingTotalDisplay">Total: $0.00</div>
+    <p id="bookingError" class="form-error" style="display:none;"></p>
+    <button class="btn primary full" id="bookSubmitBtn" onclick="submitTicketing()">Confirm Tickets</button>
+  </div>
+</div>
+
+<!-- ================= PAYMENT MODAL ================= -->
+<div id="paymentModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="modal-close" onclick="cancelPayment()">&times;</span>
+    <h3 class="modal-title">Complete Payment</h3>
+    <div id="paymentSummary"></div>
+    <div class="payment-tabs">
+      <button id="tabCard" class="payment-tab active" onclick="showCardPayment()">💳 Card</button>
+      <button id="tabMomo" class="payment-tab" onclick="showMomoPayment()">📱 MTN MoMo</button>
+    </div>
+    <form id="cardPaymentForm" onsubmit="submitCardPayment(event)">
+      <div class="form-group"><label>Card Number</label><input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" /></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>Expiry (MM/YY)</label><input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" /></div>
+        <div class="form-group"><label>CVV</label><input type="text" id="cardCVV" placeholder="123" maxlength="3" /></div>
+      </div>
+      <p id="cardError" class="form-error" style="display:none"></p>
+      <button type="submit" id="cardSubmitBtn" class="btn primary full">Pay Now</button>
+    </form>
+    <div id="momoPaymentForm" style="display:none">
+      <div id="momoStep1">
+        <div class="momo-logo">📱 MTN Mobile Money</div>
+        <div class="form-group"><label>MTN Phone Number</label><input type="text" id="momoPhone" placeholder="096XXXXXXX or 076XXXXXXX" maxlength="10" /></div>
+        <p id="momoError" class="form-error" style="display:none"></p>
+        <button onclick="submitMomoStep1()" id="momoStep1Btn" class="btn primary full">Request Payment</button>
+      </div>
+      <div id="momoStep2" style="display:none">
+        <div class="momo-pending">
+          <div style="font-size:40px;text-align:center;margin-bottom:12px">📲</div>
+          <p style="text-align:center;color:#f59e0b;font-weight:600">Check your phone!</p>
+          <p style="text-align:center;font-size:13px;color:#aaa;margin-bottom:16px">Enter your MTN MoMo PIN to confirm the payment</p>
+        </div>
+        <div class="form-group"><label>MTN MoMo PIN (4 digits)</label><input type="password" id="momoPin" placeholder="••••" maxlength="4" /></div>
+        <p id="momoPinError" class="form-error" style="display:none"></p>
+        <button onclick="submitMomoStep2()" id="momoStep2Btn" class="btn primary full">Confirm Payment</button>
+        <button onclick="resetMomoFlow()" class="btn outline full" style="margin-top:8px">← Change Number</button>
+      </div>
+    </div>
+    <button type="button" class="btn outline full" style="margin-top:8px" onclick="cancelPayment()">Cancel</button>
+  </div>
+</div>
+
+<!-- ================= CONFIRMATION MODAL ================= -->
+<div id="confirmationModal" class="modal" style="display:none;">
+  <div class="modal-content" style="text-align:center;">
+    <div class="confirmation-icon">🎉</div>
+    <h3 class="modal-title" style="text-align:center;">Booking Confirmed!</h3>
+    <p class="confirmation-ref" id="confirmationRef"></p>
+    <div class="qr-placeholder">🎟️</div>
+    <p id="confirmationDetails" style="color:#a0a0b8;margin-bottom:20px;font-size:14px;"></p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button class="btn success full" id="downloadTicketBtn" style="display:none;">📥 Download Ticket PDF</button>
+      <button class="btn primary full" onclick="closeConfirmation()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script src="login.js"></script>
+<script src="javascript.js"></script>
+<script src="footer.js"></script>
+<script>
+  // ── Dark / Light mode toggle ──────────────────────────────────────────
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+      icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  // Apply saved preference on load
+  (function() {
+    const saved = localStorage.getItem('theme') || 'dark';
+    applyTheme(saved);
+  })();
+</script>
+</body>
+</html>
